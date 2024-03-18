@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <script src="/autogen/js/custom.js" async defer="defer"></script><link rel="stylesheet" href="/autogen/assets/css/styles.ca10f300.css">
-<script src="/autogen/assets/js/runtime~main.6f337746.js" defer="defer"></script>
+<script src="/autogen/assets/js/runtime~main.3adafdc1.js" defer="defer"></script>
 <script src="/autogen/assets/js/main.e5a5d3c6.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -35,16 +35,16 @@
 <p>Initiate a list of chats.</p>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>chat_queue</code> <em>List[Dict]</em> - a list of dictionaries containing the information of the chats.
-Each dictionary should contain the input arguments for <code>ConversableAgent.initiate_chat</code>.
-More specifically, each dictionary could include the following fields:
+<li>
+<p><code>chat_queue</code> <em>List[Dict]</em> - a list of dictionaries containing the information about the chats.</p>
+<p>Each dictionary should contain the input arguments for <a href="/autogen/docs/reference/agentchat/conversable_agent#initiate_chat"><code>ConversableAgent.initiate_chat</code></a>. For example:</p>
 <ul>
 <li>&quot;sender&quot;: the sender agent.</li>
 <li>&quot;recipient&quot;: the recipient agent.</li>
 <li>&quot;clear_history&quot; (bool): whether to clear the chat history with the agent. Default is True.</li>
-<li>&quot;silent&quot; (bool or None): (Experimental) whether to print the messages for this conversation. Default is False.</li>
-<li>&quot;cache&quot; (Cache or None): the cache client to be used for this conversation. Default is None.</li>
-<li>&quot;max_turns&quot; (int or None): the maximum number of turns for the chat. If None, the chat will continue until a termination condition is met. Default is None.</li>
+<li>&quot;silent&quot; (bool or None): (Experimental) whether to print the messages in this conversation. Default is False.</li>
+<li>&quot;cache&quot; (Cache or None): the cache client to use for this conversation. Default is None.</li>
+<li>&quot;max_turns&quot; (int or None): maximum number of turns for the chat. If None, the chat will continue until a termination condition is met. Default is None.</li>
 <li>&quot;summary_method&quot; (str or callable): a string or callable specifying the method to get a summary from the chat. Default is DEFAULT_summary_method, i.e., &quot;last_msg&quot;.</li>
 <li>&quot;summary_args&quot; (dict): a dictionary of arguments to be passed to the summary_method. Default is {}.</li>
 <li>&quot;message&quot; (str, callable or None): if None, input() will be called to get the initial message.</li>

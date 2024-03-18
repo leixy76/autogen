@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <script src="/autogen/js/custom.js" async defer="defer"></script><link rel="stylesheet" href="/autogen/assets/css/styles.ca10f300.css">
-<script src="/autogen/assets/js/runtime~main.6f337746.js" defer="defer"></script>
+<script src="/autogen/assets/js/runtime~main.3adafdc1.js" defer="defer"></script>
 <script src="/autogen/assets/js/main.e5a5d3c6.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -103,23 +103,18 @@ To change the order, set the position to a positive integer.</p>
 <p>Both sync and async reply functions can be registered. The sync reply function will be triggered
 from both sync and async chats. However, an async reply function will only be triggered from async
 chats (initiated with <code>ConversableAgent.a_initiate_chat</code>). If an <code>async</code> reply function is registered
-and a chat is initialized with a sync function, <code>ignore_async_in_sync_chat</code> determines the behaviour as follows:</p>
-<ul>
-<li>if <code>ignore_async_in_sync_chat</code> is set to <code>False</code> (default value), an exception will be raised, and</li>
-<li>if <code>ignore_async_in_sync_chat</code> is set to <code>True</code>, the reply function will be ignored.</li>
-</ul>
+and a chat is initialized with a sync function, <code>ignore_async_in_sync_chat</code> determines the behaviour as follows:
+if <code>ignore_async_in_sync_chat</code> is set to <code>False</code> (default value), an exception will be raised, and
+if <code>ignore_async_in_sync_chat</code> is set to <code>True</code>, the reply function will be ignored.</p>
 <p><strong>Arguments</strong>:</p>
 <ul>
 <li><code>trigger</code> <em>Agent class, str, Agent instance, callable, or list</em> - the trigger.
-<ul>
-<li>If a class is provided, the reply function will be called when the sender is an instance of the class.</li>
-<li>If a string is provided, the reply function will be called when the sender&#x27;s name matches the string.</li>
-<li>If an agent instance is provided, the reply function will be called when the sender is the agent instance.</li>
-<li>If a callable is provided, the reply function will be called when the callable returns True.</li>
-<li>If a list is provided, the reply function will be called when any of the triggers in the list is activated.</li>
-<li>If None is provided, the reply function will be called only when the sender is None.</li>
-</ul>
-</li>
+If a class is provided, the reply function will be called when the sender is an instance of the class.
+If a string is provided, the reply function will be called when the sender&#x27;s name matches the string.
+If an agent instance is provided, the reply function will be called when the sender is the agent instance.
+If a callable is provided, the reply function will be called when the callable returns True.
+If a list is provided, the reply function will be called when any of the triggers in the list is activated.
+If None is provided, the reply function will be called only when the sender is None.</li>
 <li><code>Note</code> - Be sure to register <code>None</code> as a trigger if you would like to trigger an auto-reply function with non-empty messages and <code>sender=None</code>.</li>
 <li><code>reply_func</code> <em>Callable</em> - the reply function.
 The function takes a recipient agent, a list of messages, a sender agent and a config as input and returns a reply message.</li>
@@ -341,56 +336,71 @@ If <code>clear_history</code> is True, the chat history with the recipient agent
 <li>
 <p><code>max_turns</code> <em>int or None</em> - the maximum number of turns for the chat between the two agents. One turn means one conversation round trip. Note that this is different from
 <a href="#max_consecutive_auto_reply">max_consecutive_auto_reply</a> which is the maximum number of consecutive auto replies; and it is also different from <a href="/autogen/docs/reference/agentchat/groupchat#groupchat-objects">max_rounds in GroupChat</a> which is the maximum number of rounds in a group chat session.
-If max_turns is set to None, the chat will continue until a termination condition is met. Default is None.
-summary_method (string or callable) : a method to get a summary from the chat. Default is DEFAULT_SUMMARY_METHOD, i.e., &quot;last_msg&quot;.</p>
+If max_turns is set to None, the chat will continue until a termination condition is met. Default is None.</p>
+</li>
+<li>
+<p><code>summary_method</code> <em>str or callable</em> - a method to get a summary from the chat. Default is DEFAULT_SUMMARY_METHOD, i.e., &quot;last_msg&quot;.</p>
+<p>Supported strings are &quot;last_msg&quot; and &quot;reflection_with_llm&quot;:</p>
 <ul>
-<li>Supported string are &quot;last_msg&quot; and &quot;reflection_with_llm&quot;:
-when set &quot;last_msg&quot;, it returns the last message of the dialog as the summary.
-when set &quot;reflection_with_llm&quot;, it returns a summary extracted using an llm client.
-<code>llm_config</code> must be set in either the recipient or sender.
-&quot;reflection_with_llm&quot; requires the llm_config to be set in either the sender or the recipient.</li>
-<li>A callable summary_method should take the recipient and sender agent in a chat as input and return a string of summary. E.g,
-<code>python                     def my_summary_method(                         sender: ConversableAgent,                         recipient: ConversableAgent,                         summary_args: dict,                     ):                         return recipient.last_message(sender)[&quot;content&quot;]                     </code></li>
+<li>when set to &quot;last_msg&quot;, it returns the last message of the dialog as the summary.</li>
+<li>when set to &quot;reflection_with_llm&quot;, it returns a summary extracted using an llm client.
+<code>llm_config</code> must be set in either the recipient or sender.</li>
 </ul>
+<p>A callable summary_method should take the recipient and sender agent in a chat as input and return a string of summary. E.g.,</p>
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> </span><span class="token function" style="color:rgb(130, 170, 255)">my_summary_method</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    sender</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> ConversableAgent</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    recipient</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> ConversableAgent</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    summary_args</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">dict</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token keyword" style="font-style:italic">return</span><span class="token plain"> recipient</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">last_message</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">sender</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;content&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
 </li>
 <li>
 <p><code>summary_args</code> <em>dict</em> - a dictionary of arguments to be passed to the summary_method.
-E.g., a string of text used to prompt a LLM-based agent (the sender or receiver agent) to reflext
+One example key is &quot;summary_prompt&quot;, and value is a string of text used to prompt a LLM-based agent (the sender or receiver agent) to reflect
 on the conversation and extract a summary when summary_method is &quot;reflection_with_llm&quot;.
-Default is DEFAULT_SUMMARY_PROMPT, i.e., &quot;Summarize takeaway from the conversation. Do not add any introductory phrases. If the intended request is NOT properly addressed, please point it out.&quot;</p>
+The default summary_prompt is DEFAULT_SUMMARY_PROMPT, i.e., &quot;Summarize takeaway from the conversation. Do not add any introductory phrases. If the intended request is NOT properly addressed, please point it out.&quot;</p>
 </li>
 <li>
 <p><code>message</code> <em>str, dict or Callable</em> - the initial message to be sent to the recipient. Needs to be provided. Otherwise, input() will be called to get the initial message.</p>
 <ul>
-<li>If a string or a dict is provided, it will be used as the initial message. <code>generate_init_message</code> is called to generate the initial message for the agent based on this string and the context.
-If dict, it may contain the following reserved fields (either content or function_call need to be provided).</li>
+<li>
+<p>If a string or a dict is provided, it will be used as the initial message.        <code>generate_init_message</code> is called to generate the initial message for the agent based on this string and the context.
+If dict, it may contain the following reserved fields (either content or tool_calls need to be provided).</p>
+</li>
 </ul>
 <ol>
-<li>&quot;content&quot;: content of the message, can be None.</li>
-<li>&quot;function_call&quot;: a dictionary containing the function name and arguments. (deprecated in favor of &quot;tool_calls&quot;)</li>
-<li>&quot;tool_calls&quot;: a list of dictionaries containing the function name and arguments.</li>
-<li>&quot;role&quot;: role of the message, can be &quot;assistant&quot;, &quot;user&quot;, &quot;function&quot;.
-This field is only needed to distinguish between &quot;function&quot; or &quot;assistant&quot;/&quot;user&quot;.</li>
-<li>&quot;name&quot;: In most cases, this field is not needed. When the role is &quot;function&quot;, this field is needed to indicate the function name.</li>
-<li>&quot;context&quot; (dict): the context of the message, which will be passed to
-<a href="/autogen/docs/reference/oai/client#create">OpenAIWrapper.create</a>.</li>
+<li>
+<p>&quot;content&quot;: content of the message, can be None.</p>
+</li>
+<li>
+<p>&quot;function_call&quot;: a dictionary containing the function name and arguments. (deprecated in favor of &quot;tool_calls&quot;)</p>
+</li>
+<li>
+<p>&quot;tool_calls&quot;: a list of dictionaries containing the function name and arguments.</p>
+</li>
+<li>
+<p>&quot;role&quot;: role of the message, can be &quot;assistant&quot;, &quot;user&quot;, &quot;function&quot;.
+This field is only needed to distinguish between &quot;function&quot; or &quot;assistant&quot;/&quot;user&quot;.</p>
+</li>
+<li>
+<p>&quot;name&quot;: In most cases, this field is not needed. When the role is &quot;function&quot;, this field is needed to indicate the function name.</p>
+</li>
+<li>
+<p>&quot;context&quot; (dict): the context of the message, which will be passed to
+<a href="/autogen/docs/reference/oai/client#create">OpenAIWrapper.create</a>.</p>
+</li>
 </ol>
 <ul>
-<li>If a callable is provided, it will be called to get the initial message in the form of a string or a dict. If the returned value is a dict, it should contain the following reserved fields:
+<li>If a callable is provided, it will be called to get the initial message in the form of a string or a dict.
 If the returned type is dict, it may contain the reserved fields mentioned above.</li>
 </ul>
-<p>Example of a callable message (returning a string):
-<code>python                   def my_message(sender: ConversableAgent, recipient: ConversableAgent, context: dict) -&gt; Union[str, Dict]:                       carryover = context.get(&quot;carryover&quot;, &quot;&quot;)                       if isinstance(message, list):                           carryover = carryover[-1]                       final_msg = &quot;Write a blogpost.&quot; + &quot; Context:  &quot; + carryover                       return final_msg                   </code></p>
-<p>Example of a callable message (returning a dict):
-<code>python                   def my_message(sender: ConversableAgent, recipient: ConversableAgent, context: dict) -&gt; Union[str, Dict]:                       final_msg = {}                       carryover = context.get(&quot;carryover&quot;, &quot;&quot;)                       carryover = context.get(&quot;carryover&quot;, &quot;&quot;)                       if isinstance(message, list):                           carryover = carryover[-1]                       final_msg[&quot;content&quot;] = &quot;Write a blogpost.&quot; + &quot; Context:  &quot; + carryover                       final_msg[&quot;context&quot;] = {&quot;prefix&quot;: &quot;Today I feel&quot;}                       return final_msg                   </code></p>
+<p>Example of a callable message (returning a string):</p>
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> </span><span class="token function" style="color:rgb(130, 170, 255)">my_message</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">sender</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> ConversableAgent</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> recipient</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> ConversableAgent</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> context</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">dict</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">-</span><span class="token operator" style="color:rgb(137, 221, 255)">&gt;</span><span class="token plain"> Union</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token builtin" style="color:rgb(130, 170, 255)">str</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> Dict</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    carryover </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> context</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;carryover&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token keyword" style="font-style:italic">if</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">isinstance</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">message</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">list</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">        carryover </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> carryover</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token operator" style="color:rgb(137, 221, 255)">-</span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    final_msg </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;Write a blogpost.&quot;</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">+</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;\nContext: \n&quot;</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">+</span><span class="token plain"> carryover</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token keyword" style="font-style:italic">return</span><span class="token plain"> final_msg</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Example of a callable message (returning a dict):</p>
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> </span><span class="token function" style="color:rgb(130, 170, 255)">my_message</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">sender</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> ConversableAgent</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> recipient</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> ConversableAgent</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> context</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">dict</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">-</span><span class="token operator" style="color:rgb(137, 221, 255)">&gt;</span><span class="token plain"> Union</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token builtin" style="color:rgb(130, 170, 255)">str</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> Dict</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    final_msg </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    carryover </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> context</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;carryover&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token keyword" style="font-style:italic">if</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">isinstance</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">message</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">list</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">        carryover </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> carryover</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token operator" style="color:rgb(137, 221, 255)">-</span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    final_msg</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;content&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;Write a blogpost.&quot;</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">+</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;\nContext: \n&quot;</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">+</span><span class="token plain"> carryover</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    final_msg</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;context&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;prefix&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;Today I feel&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token keyword" style="font-style:italic">return</span><span class="token plain"> final_msg</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
 </li>
 <li>
 <p><code>**context</code> - any context information. It has the following reserved fields:</p>
-</li>
-<li>
-<p><code>&quot;carryover&quot;</code> - a string or a list of string to specify the carryover information to be passed to this chat.
-If provided, we will combine this carryover (by attaching a &quot;context: &quot;string and the carryover content after the message content) with the &quot;message&quot; content when generating the initial chat
-message in <code>generate_init_message</code>.</p>
+<ul>
+<li>&quot;carryover&quot;: a string or a list of string to specify the carryover information to be passed to this chat.
+If provided, we will combine this carryover (by attaching a &quot;context: &quot; string and the carryover content after the message content) with the &quot;message&quot; content when generating the initial chat
+message in <code>generate_init_message</code>.</li>
+</ul>
 </li>
 </ul>
 <p><strong>Raises</strong>:</p>
