@@ -14,7 +14,7 @@
 <script>!function(e,t,n,c,s,a,r){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},(a=t.createElement(c)).async=1,a.src="https://www.clarity.ms/tag/lnxpe6skj1",(r=t.getElementsByTagName(c)[0]).parentNode.insertBefore(a,r)}(window,document,"clarity","script")</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <script src="/autogen/js/custom.js" async defer="defer"></script><link rel="stylesheet" href="/autogen/assets/css/styles.d8ef5d37.css">
-<script src="/autogen/assets/js/runtime~main.b01a83b0.js" defer="defer"></script>
+<script src="/autogen/assets/js/runtime~main.8a2ff5c9.js" defer="defer"></script>
 <script src="/autogen/assets/js/main.8eb6790b.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -28,9 +28,12 @@
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="summary">summary<a href="#summary" class="hash-link" aria-label="Direct link to summary" title="Direct link to summary">​</a></h4>
 <p>A summary obtained from the chat.</p>
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="cost">cost<a href="#cost" class="hash-link" aria-label="Direct link to cost" title="Direct link to cost">​</a></h4>
-<p>The cost of the chat. a tuple of (total_cost, total_actual_cost), where total_cost is a
-dictionary of cost information, and total_actual_cost is a dictionary of information on
-the actual incurred cost with cache.</p>
+<p>The cost of the chat.
+The value for each usage type is a dictionary containing cost information for that specific type.</p>
+<ul>
+<li>&quot;usage_including_cached_inference&quot;: Cost information on the total usage, including the tokens in cached inference.</li>
+<li>&quot;usage_excluding_cached_inference&quot;: Cost information on the usage of tokens, excluding the tokens in cache. No larger than &quot;usage_including_cached_inference&quot;.</li>
+</ul>
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="human_input">human_input<a href="#human_input" class="hash-link" aria-label="Direct link to human_input" title="Direct link to human_input">​</a></h4>
 <p>A list of human input solicited during the chat.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="initiate_chats">initiate_chats<a href="#initiate_chats" class="hash-link" aria-label="Direct link to initiate_chats" title="Direct link to initiate_chats">​</a></h3>
