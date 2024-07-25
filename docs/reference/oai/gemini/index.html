@@ -14,7 +14,7 @@
 <script>!function(e,t,n,c,s,a,r){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},(a=t.createElement(c)).async=1,a.src="https://www.clarity.ms/tag/lnxpe6skj1",(r=t.getElementsByTagName(c)[0]).parentNode.insertBefore(a,r)}(window,document,"clarity","script")</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <script src="/autogen/js/custom.js" async defer="defer"></script><link rel="stylesheet" href="/autogen/assets/css/styles.d8ef5d37.css">
-<script src="/autogen/assets/js/runtime~main.dbe08c0a.js" defer="defer"></script>
+<script src="/autogen/assets/js/runtime~main.88484a99.js" defer="defer"></script>
 <script src="/autogen/assets/js/main.1a5cb25d.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -32,7 +32,7 @@
 <p><code>&quot;model&quot;</code> - &quot;gemini-pro&quot;,</p>
 </li>
 <li>
-<p><code>&quot;api_key&quot;</code> - os.environ.get(&quot;GOOGLE_API_KEY&quot;),</p>
+<p><code>&quot;api_key&quot;</code> - os.environ.get(&quot;GOOGLE_GEMINI_API_KEY&quot;),</p>
 </li>
 <li>
 <p><code>&quot;safety_settings&quot;</code> - [</p>
@@ -79,14 +79,16 @@ of AutoGen.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="__init__">__init__<a href="#__init__" class="hash-link" aria-label="Direct link to __init__" title="Direct link to __init__">​</a></h3>
 <div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> </span><span class="token function" style="color:rgb(130, 170, 255)">__init__</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token operator" style="color:rgb(137, 221, 255)">**</span><span class="token plain">kwargs</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
 <p>Uses either either api_key for authentication from the LLM config
-(specifying the GOOGLE_API_KEY environment variable also works),
+(specifying the GOOGLE_GEMINI_API_KEY environment variable also works),
 or follows the Google authentication mechanism for VertexAI in Google Cloud if no api_key is specified,
-where project_id and location can also be passed as parameters. Service account key file can also be used.
-If neither a service account key file, nor the api_key are passed, then the default credentials will be used,
-which could be a personal account if the user is already authenticated in, like in Google Cloud Shell.</p>
+where project_id and location can also be passed as parameters. Previously created credentials object can be provided,
+or a Service account key file can also be used. If neither a service account key file, nor the api_key are passed,
+then the default credentials will be used, which could be a personal account if the user is already authenticated in,
+like in Google Cloud Shell.</p>
 <p><strong>Arguments</strong>:</p>
 <ul>
 <li><code>api_key</code> <em>str</em> - The API key for using Gemini.</li>
+<li><code>credentials</code> <em>google.auth.credentials.Credentials</em> - credentials to be used for authentication with vertexai.</li>
 <li><code>google_application_credentials</code> <em>str</em> - Path to the JSON service account key file of the service account.
 Alternatively, the GOOGLE_APPLICATION_CREDENTIALS environment variable
 can also be set instead of using this argument.</li>
